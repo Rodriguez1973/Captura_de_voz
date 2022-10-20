@@ -1,0 +1,26 @@
+/* Proyecto realizado por: José A. Rodríguez López-->
+ * Fecha: 18/10/2022
+ */
+ 
+#cajaTexto{
+  margin:50px;
+  width: auto; 
+  height: 60%;
+  border: 1px solid coral;
+  font-size: 40px;
+}
+
+i{
+  font-size: 10px;
+  color:coral;
+  text-align: center;
+}
+
+h1{
+  margin-left: 15%;
+}
+
+nav{
+  margin:15%;
+}
+
