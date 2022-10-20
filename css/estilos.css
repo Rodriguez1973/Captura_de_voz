@@ -1,26 +1,137 @@
 /* Proyecto realizado por: José A. Rodríguez López-->
- * Fecha: 18/10/2022
+ * Fecha: 10/10/2022
  */
+
+.cabecera {
+  margin: 10px;
+}
+
+#contenedor_cabecera {
+  background-color: #beb5ef;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+}
+
+#titulo {
+  display: flex;
+  flex-direction: row;
+  font-size: larger;
+  background-color: #beb5ef;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+#titulo>div {
+  padding-top: 15px;
+  padding-left: 75px;
+  padding-right: 75px;
+  padding-bottom: 15px;
+  margin: 0;
+}
+
+#titulo img {
+  width: 80px;
+}
+
+#tit_principal {
+  background-color: #beb5ef;
+  text-decoration: underline;
+  text-align: center;
+  padding: 15px;
+  margin: 0px;
+  top: 50%;
+}
+
+#cerrar {
+  background: linear-gradient(to right, rgb(231, 237, 153), rgb(136, 244, 246));
+  color: blueviolet;
+  text-decoration: underline;
+  font-weight: bold;
+  padding: 15px;
+  margin: 0px;
+  text-align: left;
+}
+
+#contenido {
+  background: rgb(251, 187, 164);
+  margin: 20px 10px 10px 10px;
+  padding: 30px;
+}
+
+.pie {
+  grid-area: d;
+  margin-top: 20px;
+  background-color: white;
+  text-align: center;
+  font-size: 15px;
+  font-style: italic;
+  padding: 0px;
+  border-top: solid 1px black;
+}
+
+input,
+#cerrar_navegador {
+  font-size: 20px;
+}
+
+#reiniciar {
+  display: flex;
+  justify-content: center;
+  padding: 0px;
+}
  
 #cajaTexto{
   margin:50px;
   width: auto; 
   height: 60%;
-  border: 1px solid coral;
+  border: 1px solid rgb(45, 8, 194);
   font-size: 40px;
 }
 
-i{
-  font-size: 10px;
-  color:coral;
-  text-align: center;
-}
-
-h1{
-  margin-left: 15%;
-}
-
 nav{
-  margin:15%;
+  display: flex;
+  justify-content: center;
 }
 
+nav input{
+  margin: 20px;
+}
+
+nav input {
+  text-align: center;
+  font-size: 15px;
+  background-color:rgb(179, 177, 177);
+  border-radius: 20px;
+  width: 160px;
+  height:40px;
+  font-weight: bold;
+  background-repeat: no-repeat;
+  background-position-y: center;
+  background-position-x: 10px;
+}
+
+#grabar{
+  background-image: url(../images/record.png);
+}
+
+#reproducir{
+  background-image: url(../images/play.png);
+}
+
+#parar{
+  background-image: url(../images/stop.png);
+}
+
+#contenedorTexto {
+  overflow: scroll; ;
+  padding:20px;
+  border: 2px solid green;
+  color:blue;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-family: Verdana;
+  font-size: 17px;
+  font-weight: bold;
+  height: 390px;
+}

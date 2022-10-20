@@ -3,33 +3,49 @@
 
 <!DOCTYPE html>
 <html lang="es">
-  
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Buscador en la página</title>
-  <link rel="stylesheet" type="text/css" href="./css/estilos.css">
+  <title>Captura de voz</title>
+  <link rel="stylesheet" href="./css/estilos.css">
   <script src="./js/javascript.js" defer></script>
 </head>
 
 <body>
-  <header>
-  <h1>Captura de Voz</h1>
-  </header>
+  <section id="captura_voz">
+    <!--Encabezado de la página web-->
+    <header class="cabecera">
+      <div id="contenedor_cabecera">
+        <div id="titulo">
+          <div><img src="./images/record_voice_audio_icon.png" alt="Grabación de voz"></div>
+          <div>
+            <h1 id="tit_principal">Captura de Voz</h1>
+          </div>
+          <div><img src="./images/record_voice_audio_icon.png" alt="Grabación de voz"></div>
+        </div>
+      </div>
+      <div>
+        <p id="cerrar"><a id="cerrar_navegador">Cerrar Navegador</a></p>
+      </div>
+    </header>
+    <!--Contenedor principal-->
+    <div id="contenido">
+      <nav>
+        <input type="button" id="grabar" value="Grabar">
+        <input type="button" id="reproducir" value="Reproducir">
+        <input type="button" id="parar" value="Parar">
+      </nav>
+      <div id="contenedorTexto">
+      </div>
+    </div>
+  </section>
 
-  <nav>
-    <input type="button" id="reiniciar" value="Reiniciar">
-    <input type="button" id="reproducir" value="Reproducir">
-    <input type="button" id="parar" value="Parar">
-  </nav>
-  
-  <article>
-  <div id="cajaTexto"></div>
-  </article>
-
-  <footer>
-    
+  <!--Pie de página-->
+  <footer class="pie">
+    <p>Desarrollo de aplicaciones Web(DAW) &copy; CIFP Santa Catalina</p>
+    <p>Realizado por: José A. Rodríguez López.</p>
   </footer>
 </body>
 
