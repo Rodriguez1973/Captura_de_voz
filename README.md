@@ -5,5 +5,6 @@ El botón Reproducir, reproduce en formato voz el texto capturado.<br>
 Seria interesante ejecutar la funcionalidad de los botones por medio de la voz.<br>
 
 Fuentes de documentación:<br>
+https://www.youtube.com/watch?v=jIUW1_fzDAE<br>
 https://www.adictosaltrabajo.com/2016/03/11/reconocimiento-y-sintesis-de-voz-en-el-navegador/<br>
 https://www.google.com/intl/en/chrome/demos/speech.html<br>
