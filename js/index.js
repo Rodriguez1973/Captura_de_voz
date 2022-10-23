@@ -4,7 +4,6 @@
 
 //Declaraciones.
 const comandos = ['grabar', 'reproducir', 'parar', 'cerrar'] //Comandos de ejecución.
-let mensaje=""  //Mensaje a reproducir.
 
 //Interfaz del reconocimiento de voz.
 var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
@@ -13,20 +12,22 @@ var SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList
 
 //--------------------------------------------------------------------------------------------------
 //Objetos del documento.
-const btnCerrar = document.getElementById('cerrar_navegador')
+const enlaceCerrar = document.getElementById('cerrar_navegador')
 const btnGrabar = document.getElementById('grabar')
 const btnParar = document.getElementById('parar')
-const btnReproducir=document.getElementById('reproducir')
+const btnReproducir = document.getElementById('reproducir')
 const contTexto = document.getElementById('contenedorTexto')
 
 //--------------------------------------------------------------------------------------------------
-//Flags de control de eventos.
-let grabando=false;
+//Flags de control de estados.
+let grabando = false
+let reproduciendo = false
+let lanzar = false
 
 //--------------------------------------------------------------------------------------------------
 /*Captura de eventos*/
 /*Captura el evento onclick en la etiqueta <p id="cerrar_navegador">. Cierra el navegador.*/
-btnCerrar.onclick = function () {
+enlaceCerrar.onclick = function () {
   cerrarNavegador()
 }
 
@@ -37,12 +38,14 @@ btnGrabar.addEventListener('click', grabar, false)
 btnReproducir.addEventListener('click', reproducir, false)
 
 /*Evento click sobre el <input id="parar">. Para la grabación o reproducción*/
-btnParar.addEventListener('click', parar, false)
+btnParar.addEventListener('click', pararGrabacion, false)
 
 //--------------------------------------------------------------------------------------------------
 //Inicialización.
 //Idioma seleccionado.
 const idiomaSeleccionado = 'es-ES'
+//Establecer color botones.
+estableceColorBotones()
 
 /*Gramática*/
 //Definición de la gramática de navegación.//
@@ -55,7 +58,11 @@ speechRecognitionList.addFromString(gramatica, 1)
 
 /*Sintesis de voz*/
 //Representa una solicitud de voz. Contiene el contenido que debe leer el servicio de voz e información sobre cómo leerlo (por ejemplo, idioma, tono y volumen).
-const discurso = new SpeechSynthesisUtterance() 
+const discurso = new SpeechSynthesisUtterance()
+discurso.lang = idiomaSeleccionado //Establece el idioma de reproducción.
+discurso.volume = 1 //Establece el volumen al máximo.
+discurso.rate = 1 //Velocidad de habla.
+discurso.pitch = 1 //Tono de reproducción.
 
 /*Reconocimiento de voz*/
 //Crea el objeto del reconocimiento de voz.
@@ -74,69 +81,80 @@ reconocimiento.start()
 
 /* Captura de sonido.*/
 reconocimiento.onresult = (evento) => {
-  const resultados = evento.results //Resultados del evento.
-  const frase = resultados[resultados.length - 1][0].transcript.trim()
-  console.log(frase) //Muestra en la consola la palabra leída.
-  if (verificarComando(frase)) {
-    switch (frase) {
-      case 'grabar':
-        grabar()
-        break
-      case 'reproducir':
-        reproducir()
-        break
-      case 'parar':
-        parar()
-        break
-      case 'cerrar':
-        cerrarNavegador()
-        break
-    }
-  } else {
-    if (grabando) {
-      contTexto.innerText = contTexto.innerText + ' ' + frase
+  if (!window.speechSynthesis.pending && !window.speechSynthesis.speaking) {
+    const resultados = evento.results //Resultados del evento.
+    const frase = resultados[resultados.length - 1][0].transcript.trim()
+    console.log(frase) //Muestra en la consola la palabra leída.
+    if (verificarComando(frase)) {
+      switch (frase) {
+        case 'grabar':
+          grabar()
+          break
+        case 'reproducir':
+          reproducir()
+          break
+        case 'parar':
+          pararGrabacion()
+          break
+        case 'cerrar':
+          cerrarNavegador()
+          break
+      }
+    } else {
+      if (grabando) {
+        contTexto.innerText = contTexto.innerText + ' ' + frase
+      }
     }
   }
 }
 
 //Evento lanzado al finalizar el reconocimiento. Reinicia el reconocimiento.
 reconocimiento.onend = () => {
-  reconocimiento.start()
+  if (!reproduciendo){
+      reconocimiento.start()
+  }
+}
+
+//Evento final del objeto SpeechSynthesisUtterance se activa cuando la expresión ha terminado de pronunciarse.
+discurso.onend = ()=>{
+  reproduciendo=false;
+  reconocimiento.start();
+  estableceColorBotones();
 }
 
 //--------------------------------------------------------------------------------------------------
 /*Funciones*/
 /*Función que comienza la grabación.*/
 function grabar() {
-  reconocimiento.stop()
-  mensaje = 'Inicio de la grabación.'
-  reproducir(mensaje)
-  contenedorTexto.innerText = ''
-  grabando = true
-  reconocimiento.start()
+  if (
+    !grabando && 
+    !window.speechSynthesis.speaking &&
+    !window.speechSynthesis.pending
+  ) {
+    grabando = true
+    estableceColorBotones()
+    contenedorTexto.innerText = ''
+  }
 }
 
 /*Función que realiza la lectura del texto y lo reproduce. Si recibe un mensaje reproduce el mensaje*/
-function reproducir(mensaje = null) {
-  if(!mensaje){
-    if(contTexto.innerText==""){
-        return
-    }else{
-        mensaje = contenedorTexto.innerText
-    }
+function reproducir() {
+  if (!reproduciendo && !grabando) {
+    reconocimiento.abort()
+    reproduciendo=true;
+    estableceColorBotones()
+    discurso.text = contTexto.innerText.trim() //Establece el texto a reproducir
+    window.speechSynthesis.speak(discurso) //Agrega el discurso a la cola de reproducción.
   }
-  discurso.lang = idiomaSeleccionado //Establece el idioma de reproducción.
-  discurso.text = mensaje //Establece el texto a reproducir
-  discurso.volume = 1 //Establece el voluman al máximo.
-  discurso.rate = 1 //Velocidad de habla.
-  discurso.pitch = 1 //Tono de reproducción.
-  window.speechSynthesis.speak(discurso) //Agrega el discurso a la cola de reproducción.
 }
 
 //Función que para el reconocimiento y reproducción de voz
-function parar() {
-  reconocimiento.pause();
-
+function pararGrabacion() {
+  if (grabando){
+    reconocimiento.abort()
+    grabando = false
+    estableceColorBotones()
+  }
 }
 
 //Función que cierra el navegador.
@@ -147,4 +165,24 @@ function cerrarNavegador() {
 //Función que verifica si es un comando a ejecutar.
 function verificarComando(comando) {
   return comandos.includes(comando)
+}
+
+/*Función que establece el background de los botones*/
+function estableceColorBotones(){
+  //Parar.
+  if(!grabando && !reproduciendo){
+    btnParar.style.backgroundColor='#be2553'
+    btnGrabar.style.backgroundColor='rgb(179, 177, 177)';
+    btnReproducir.style.backgroundColor='rgb(179, 177, 177)';
+  //Grabar.
+  }else if(grabando){
+    btnGrabar.style.backgroundColor='#be2553'
+    btnParar.style.backgroundColor='rgb(179, 177, 177)';
+    btnReproducir.style.backgroundColor='rgb(179, 177, 177)';
+  //Reproducir.
+  }else if(reproduciendo){
+    btnReproducir.style.backgroundColor='#be2553'
+    btnParar.style.backgroundColor='rgb(179, 177, 177)';
+    btnGrabar.style.backgroundColor='rgb(179, 177, 177)';
+  }
 }
