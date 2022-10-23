@@ -76,7 +76,8 @@ reconocimiento.interimResults = false
 //La propiedad maxAlternatives establece el número máximo de SpeechRecognitionAlternatives proporcionados por SpeechRecognitionResult.
 reconocimiento.maxAlternatives = 1
 
-/*Inicia en el navegador del acceso al microfono.*/
+/*Inicia en el navegador el acceso al microfono.*/
+let inicio=true;
 reconocimiento.start()
 
 /* Captura de sonido.*/
@@ -110,7 +111,7 @@ reconocimiento.onresult = (evento) => {
 
 //Evento lanzado al finalizar el reconocimiento. Reinicia el reconocimiento.
 reconocimiento.onend = () => {
-  if (!reproduciendo){
+  if (!reproduciendo && !grabando){
       reconocimiento.start()
   }
 }
@@ -140,8 +141,8 @@ function grabar() {
 /*Función que realiza la lectura del texto y lo reproduce. Si recibe un mensaje reproduce el mensaje*/
 function reproducir() {
   if (!reproduciendo && !grabando) {
-    reconocimiento.abort()
     reproduciendo=true;
+    reconocimiento.abort()
     estableceColorBotones()
     discurso.text = contTexto.innerText.trim() //Establece el texto a reproducir
     window.speechSynthesis.speak(discurso) //Agrega el discurso a la cola de reproducción.
@@ -151,8 +152,8 @@ function reproducir() {
 //Función que para el reconocimiento y reproducción de voz
 function pararGrabacion() {
   if (grabando){
-    reconocimiento.abort()
     grabando = false
+    reconocimiento.abort()
     estableceColorBotones()
   }
 }
