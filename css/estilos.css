@@ -94,11 +94,9 @@ nav{
   justify-content: center;
 }
 
-nav input{
-  margin: 20px;
-}
-
 nav input {
+  margin: 20px;
+  background-color: rgb(179, 177, 177);
   text-align: center;
   font-size: 15px;
   border-radius: 20px;
@@ -132,6 +130,6 @@ nav input {
   font-family: Verdana;
   font-size: 17px;
   font-weight: bold;
-  height: 390px;
+  height: 300px;
   background-color: white;
 }

@@ -16,6 +16,7 @@ const enlaceCerrar = document.getElementById('cerrar_navegador')
 const btnGrabar = document.getElementById('grabar')
 const btnParar = document.getElementById('parar')
 const btnReproducir = document.getElementById('reproducir')
+const btnHabilitar = document.getElementById('enable')
 const contTexto = document.getElementById('contenedorTexto')
 
 //--------------------------------------------------------------------------------------------------
@@ -40,12 +41,25 @@ btnReproducir.addEventListener('click', reproducir, false)
 /*Evento click sobre el <input id="parar">. Para la grabación o reproducción*/
 btnParar.addEventListener('click', pararGrabacion, false)
 
+/*Evento click sobre el <input id="enable">. Habilita los botones. Se utiliza porque desde el 2018 para poder reproducir el sonido hay que hacer click sobre la ventana.*/
+btnHabilitar.addEventListener('click', ()=>{
+  btnHabilitar.disabled=true;
+  //Establecer color botones.
+  estableceColorBotones()
+  btnParar.disabled=false;
+  btnReproducir.disabled=false;
+  btnGrabar.disabled=false;
+  //Reproduce inicio de la aplicación.
+  discurso.text="Aplicación iniciada."
+  window.speechSynthesis.speak(discurso)
+  /*Inicia en el navegador el acceso al microfono.*/
+  reconocimiento.start() 
+}, false)
+
 //--------------------------------------------------------------------------------------------------
 //Inicialización.
 //Idioma seleccionado.
 const idiomaSeleccionado = 'es-ES'
-//Establecer color botones.
-estableceColorBotones()
 
 /*Gramática*/
 //Definición de la gramática de navegación.//
@@ -75,16 +89,6 @@ reconocimiento.continuous = true
 reconocimiento.interimResults = false
 //La propiedad maxAlternatives establece el número máximo de SpeechRecognitionAlternatives proporcionados por SpeechRecognitionResult.
 reconocimiento.maxAlternatives = 1
-
-/*Inicia en el navegador el acceso al microfono.*/
-let inicio=true;
-discurso.text="Aplicación iniciada."
-discurso.text = contTexto.innerText.trim() //Establece el texto a reproducir
-window.speechSynthesis.speak(discurso) 
-window.speechSynthesis.speak(discurso);
-window.speechSynthesis.cancel()
-window.speechSynthesis.speak(discurso);
-reconocimiento.start()
 
 /* Captura de sonido.*/
 reconocimiento.onresult = (evento) => {
