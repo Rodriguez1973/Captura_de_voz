@@ -78,6 +78,12 @@ reconocimiento.maxAlternatives = 1
 
 /*Inicia en el navegador el acceso al microfono.*/
 let inicio=true;
+discurso.text="Aplicación iniciada."
+discurso.text = contTexto.innerText.trim() //Establece el texto a reproducir
+window.speechSynthesis.speak(discurso) 
+window.speechSynthesis.speak(discurso);
+window.speechSynthesis.cancel()
+window.speechSynthesis.speak(discurso);
 reconocimiento.start()
 
 /* Captura de sonido.*/
