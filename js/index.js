@@ -42,18 +42,18 @@ btnReproducir.addEventListener('click', reproducir, false)
 btnParar.addEventListener('click', pararGrabacion, false)
 
 /*Evento click sobre el <input id="enable">. Habilita los botones. Se utiliza porque desde el 2018 para poder reproducir el sonido hay que hacer click sobre la ventana.*/
-btnHabilitar.addEventListener('click', ()=>{
-  btnHabilitar.disabled=true;
+btnHabilitar.addEventListener('click', () => {
+  btnHabilitar.hidden = true;
   //Establecer color botones.
   estableceColorBotones()
-  btnParar.disabled=false;
-  btnReproducir.disabled=false;
-  btnGrabar.disabled=false;
+  btnParar.disabled = false;
+  btnReproducir.disabled = false;
+  btnGrabar.disabled = false;
   //Reproduce inicio de la aplicación.
-  discurso.text="Aplicación iniciada."
+  discurso.text = "Aplicación iniciada."
   window.speechSynthesis.speak(discurso)
   /*Inicia en el navegador el acceso al microfono.*/
-  reconocimiento.start() 
+  reconocimiento.start()
 }, false)
 
 //--------------------------------------------------------------------------------------------------
@@ -121,14 +121,14 @@ reconocimiento.onresult = (evento) => {
 
 //Evento lanzado al finalizar el reconocimiento. Reinicia el reconocimiento.
 reconocimiento.onend = () => {
-  if (!reproduciendo && !grabando){
-      reconocimiento.start()
+  if (!reproduciendo && !grabando) {
+    reconocimiento.start()
   }
 }
 
 //Evento final del objeto SpeechSynthesisUtterance se activa cuando la expresión ha terminado de pronunciarse.
-discurso.onend = ()=>{
-  reproduciendo=false;
+discurso.onend = () => {
+  reproduciendo = false;
   reconocimiento.start();
   estableceColorBotones();
 }
@@ -138,7 +138,7 @@ discurso.onend = ()=>{
 /*Función que comienza la grabación.*/
 function grabar() {
   if (
-    !grabando && 
+    !grabando &&
     !window.speechSynthesis.speaking &&
     !window.speechSynthesis.pending
   ) {
@@ -151,7 +151,7 @@ function grabar() {
 /*Función que realiza la lectura del texto y lo reproduce. Si recibe un mensaje reproduce el mensaje*/
 function reproducir() {
   if (!reproduciendo && !grabando) {
-    reproduciendo=true;
+    reproduciendo = true;
     reconocimiento.abort()
     estableceColorBotones()
     discurso.text = contTexto.innerText.trim() //Establece el texto a reproducir
@@ -161,7 +161,7 @@ function reproducir() {
 
 //Función que para el reconocimiento y reproducción de voz
 function pararGrabacion() {
-  if (grabando){
+  if (grabando) {
     grabando = false
     reconocimiento.abort()
     estableceColorBotones()
@@ -179,21 +179,21 @@ function verificarComando(comando) {
 }
 
 /*Función que establece el background de los botones*/
-function estableceColorBotones(){
+function estableceColorBotones() {
   //Parar.
-  if(!grabando && !reproduciendo){
-    btnParar.style.backgroundColor='#be2553'
-    btnGrabar.style.backgroundColor='rgb(179, 177, 177)';
-    btnReproducir.style.backgroundColor='rgb(179, 177, 177)';
-  //Grabar.
-  }else if(grabando){
-    btnGrabar.style.backgroundColor='#be2553'
-    btnParar.style.backgroundColor='rgb(179, 177, 177)';
-    btnReproducir.style.backgroundColor='rgb(179, 177, 177)';
-  //Reproducir.
-  }else if(reproduciendo){
-    btnReproducir.style.backgroundColor='#be2553'
-    btnParar.style.backgroundColor='rgb(179, 177, 177)';
-    btnGrabar.style.backgroundColor='rgb(179, 177, 177)';
+  if (!grabando && !reproduciendo) {
+    btnParar.style.backgroundColor = '#be2553'
+    btnGrabar.style.backgroundColor = 'rgb(179, 177, 177)';
+    btnReproducir.style.backgroundColor = 'rgb(179, 177, 177)';
+    //Grabar.
+  } else if (grabando) {
+    btnGrabar.style.backgroundColor = '#be2553'
+    btnParar.style.backgroundColor = 'rgb(179, 177, 177)';
+    btnReproducir.style.backgroundColor = 'rgb(179, 177, 177)';
+    //Reproducir.
+  } else if (reproduciendo) {
+    btnReproducir.style.backgroundColor = '#be2553'
+    btnParar.style.backgroundColor = 'rgb(179, 177, 177)';
+    btnGrabar.style.backgroundColor = 'rgb(179, 177, 177)';
   }
 }
