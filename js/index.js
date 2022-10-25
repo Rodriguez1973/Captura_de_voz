@@ -3,7 +3,7 @@
  */
 
 //Declaraciones.
-const comandos = ['grabar', 'reproducir', 'parar', 'cerrar'] //Comandos de ejecución.
+const comandos = ['grabar', 'reproducir', 'parar', 'cerrar', 'Grabar.', 'Reproducir.', 'Parar.', 'Cerrar.'] //Comandos de ejecución.
 
 //Interfaz del reconocimiento de voz.
 var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
@@ -62,7 +62,7 @@ const idiomaSeleccionado = 'es-ES'
 /*Gramática*/
 //Definición de la gramática de navegación.//
 var gramatica =
-  '#JSGF V1.0; grammar actions; public <action> = grabar | reproducir | parar | cerrar'
+  '#JSGF V1.0; grammar actions; public <action> = grabar | reproducir | parar | cerrar | Grabar. | Reproducir. | Parar. | Cerrar.'
 //Crea una nueva lista de objetos SpeechGrammar que contienen palabras o patrones de palabras que queremos que el servicio de reconocimiento reconozca.
 var speechRecognitionList = new SpeechGrammarList()
 //Toma una gramática presente en una cadena de texto y la agrega al nuevo objeto SpeechGrammar.El 1 especifica la impñortancia de esta gramática (valores entre 0.0. y 1.0).
@@ -97,15 +97,19 @@ reconocimiento.onresult = (evento) => {
     if (verificarComando(frase)) {
       switch (frase) {
         case 'grabar':
+        case 'Grabar.':
           grabar()
           break
         case 'reproducir':
+        case 'Reproducir.':
           reproducir()
           break
         case 'parar':
+        case 'Parar.':
           pararGrabacion()
           break
         case 'cerrar':
+        case 'Cerrar.':
           cerrarNavegador()
           break
       }
