@@ -52,8 +52,6 @@ btnHabilitar.addEventListener('click', () => {
   //Reproduce inicio de la aplicación.
   discurso.text = "Aplicación iniciada."
   window.speechSynthesis.speak(discurso)
-  /*Inicia en el navegador el acceso al microfono.*/
-  reconocimiento.start()
 }, false)
 
 //--------------------------------------------------------------------------------------------------
